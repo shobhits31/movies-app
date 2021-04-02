@@ -1,6 +1,8 @@
 import React, { Component } from "react";
+import ReactDOM from "react-dom";
 import "./Home.css";
 import Header from "../../common/header/Header";
+import Details from "../details/Details";
 import { withStyles } from "@material-ui/core/styles";
 import moviesData from "../../common/movieData";
 import genres from "../../common/genre";
@@ -19,6 +21,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Checkbox from "@material-ui/core/Checkbox";
 import ListItemText from "@material-ui/core/ListItemText";
 import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
 
 const styles = (theme) => ({
   root: {
@@ -68,6 +71,17 @@ class Home extends Component {
     this.setState({ genre: event.target.value });
   };
 
+  artistSelectHandler = (event) => {
+    this.setState({ genre: event.target.value });
+  };
+
+  movieClickHandler = (movieId) => {
+    ReactDOM.render(
+      <Details movieId={movieId} />,
+      document.getElementById("root")
+    );
+  };
+
   render() {
     const { classes } = this.props;
     return (
@@ -97,6 +111,7 @@ class Home extends Component {
             >
               {moviesData.map((movie) => (
                 <GridListTile
+                  onClick={() => this.movieClickHandler(movie.id)}
                   key={movie.id}
                   className="release-movie-grid-item"
                 >
@@ -190,6 +205,22 @@ class Home extends Component {
                     default=""
                     InputLabelProps={{ shrink: true }}
                   />
+                </FormControl>
+                <FormControl className={classes.formControl}>
+                  <TextField
+                    id="releaseDateEnd"
+                    label="Release Date End"
+                    type="date"
+                    default=""
+                    InputLabelProps={{ shrink: true }}
+                  />
+                </FormControl>
+                <br />
+                <br />
+                <FormControl className={classes.formControl}>
+                  <Button variant="contained" color="primary">
+                    APPLY
+                  </Button>
                 </FormControl>
               </CardContent>
             </Card>
